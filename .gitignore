@@ -1,0 +1,22 @@
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment folder
+venv/
+
+# Flask instance and config
+instance/
+*.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.bak
+
+# Environment variables
+.env

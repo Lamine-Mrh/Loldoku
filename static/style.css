@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+input {
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+}
+
+#autocomplete-dropdown {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#autocomplete-dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown {
+    max-height: 200px; /* Limit the height of the dropdown */
+    overflow-y: auto; /* Add a scrollbar if content overflows */
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    background-color: white;
+}
+.dropdown div {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    cursor: pointer;
+}
+.dropdown div:last-child {
+    border-bottom: none;
+}
+.dropdown div:hover {
+    background-color: #f0f0f0;
+}
