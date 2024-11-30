@@ -9,7 +9,7 @@ table {
 }
 
 th, td {
-    border: 1px solid black;
+    border: 1px solid transparent; /* Set borders to transparent */
     padding: 10px;
     text-align: center;
 }

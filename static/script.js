@@ -19,8 +19,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     dropdownContainer.innerHTML = '';
 
                     if (suggestions.length > 0) {
-                        // Create a dropdown list with the suggestions
-                        suggestions.forEach(name => {
+                        // Sort suggestions: prioritize champions starting with the input query
+                        const sortedSuggestions = suggestions.sort((a, b) => {
+                            if (a.toLowerCase().startsWith(query.toLowerCase()) && !b.toLowerCase().startsWith(query.toLowerCase())) {
+                                return -1; // 'a' comes first
+                            } else if (!a.toLowerCase().startsWith(query.toLowerCase()) && b.toLowerCase().startsWith(query.toLowerCase())) {
+                                return 1; // 'b' comes first
+                            }
+                            return 0; // If both or neither start with the query, keep their order
+                        });
+
+                        // Create a dropdown list with the sorted suggestions
+                        sortedSuggestions.forEach(name => {
                             const item = document.createElement('div');
                             item.textContent = name;
                             item.style.padding = '8px';
@@ -35,34 +45,39 @@ document.addEventListener("DOMContentLoaded", function () {
                                 item.style.backgroundColor = 'white';
                             });
 
-                            // When an item is clicked, autofill the input field and hide the dropdown
+                            // When an item is clicked, autofill the input field, disable it and hide the dropdown
                             item.addEventListener('click', function () {
                                 input.value = name;
+                                input.disabled = true;  // Disable the input field after selection
                                 dropdownContainer.style.display = 'none';  // Hide the dropdown after selection
 
                                 // Trigger input validation after selection
                                 const rowAttr = input.dataset.row;
                                 const colAttr = input.dataset.col;
+
+                                // Send validation request to check if the selected champion is valid
                                 fetch('http://127.0.0.1:5000/validate', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        row_attr: rowAttr,
-                                        col_attr: colAttr,
-                                        champion_name: name
+                                        row_attr: 'region',  // Hardcoding as 'region' (could make dynamic)
+                                        col_attr: colAttr,   // Role (Top, Mid, Jungle)
+                                        champion_name: name,
+                                        expected_value_row: rowAttr,  // The row (e.g., Demacia, Ionia, etc.)
+                                        expected_value_col: colAttr  // The column (e.g., Top, Mid, Jungle)
                                     })
                                 })
                                 .then(response => response.json())
                                 .then(result => {
                                     if (result.valid) {
-                                        input.style.backgroundColor = 'lightgreen';
+                                        input.style.backgroundColor = 'lightgreen'; // Champion is valid
                                     } else {
-                                        input.style.backgroundColor = 'lightcoral';
+                                        input.style.backgroundColor = 'lightcoral'; // Champion is invalid
                                     }
                                 })
                                 .catch(error => {
                                     console.error('Error validating input:', error);
-                                    input.style.backgroundColor = 'lightcoral';
+                                    input.style.backgroundColor = 'lightcoral'; // Error case
                                 });
                             });
 

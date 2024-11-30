@@ -22,8 +22,6 @@ Thumbs.db
 # Ignore log files
 *.log
 
-# Ignore CSV file if it's not needed in version control (optional)
-champions.csv
 
 # Ignore environment variable files
 .env
