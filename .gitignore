@@ -1,22 +1,29 @@
-# Python bytecode files
+# Ignore Python bytecode files
 __pycache__/
 *.pyc
 *.pyo
 
-# Virtual environment folder
-venv/
+# Ignore the virtual environment directory
+venv1/
 
-# Flask instance and config
+# Ignore Flask instance folder
 instance/
-*.db
 
-# IDE settings
+# Ignore configuration files, if any (e.g., local configuration files)
+config.py
+
+# Ignore IDE specific files (for example, VS Code)
 .vscode/
-.idea/
 
-# Logs and temporary files
+# Ignore system files (Mac, Windows)
+.DS_Store
+Thumbs.db
+
+# Ignore log files
 *.log
-*.bak
 
-# Environment variables
+# Ignore CSV file if it's not needed in version control (optional)
+champions.csv
+
+# Ignore environment variable files
 .env
