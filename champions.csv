@@ -1,4 +1,4 @@
-name,region,role,class,subclass,specie,release_year,resources,range,gender
+name,region,role,type,subclass,specie,release_year,resources,range,gender
 "Aatrox","Shurima,Runeterra","Top","Fighter","Juggernaut","Darkin",2013,None,Melee,Male
 "Ahri","Ionia","Mid","Mage","Burst,Assassin","Vastaya",2011,Mana,Ranged,Female
 "Akali","Ionia","Top,Mid","Slayer","Assassin","Human",2010,Energy,Melee,Female
@@ -13,7 +13,7 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Aurelion Sol","Targon","Mid","Mage","Battlemage","Dragon",2016,Mana,Ranged,Male
 "Aurora","Freljord","Mid","Mage","Assassin","Vastaya",2024,Mana,Ranged,Female
 "Azir","Shurima","Mid","Specialist","Battlemage","Ascended",2014,Mana,Ranged,Male
-"Bard","Targon","Support","Controller","Catcher","Celestial",2015,Mana,Ranged,None
+"Bard","Targon","Support","Controller","Catcher","Celestial",2015,Mana,Ranged,Genderless
 "Bel'Veth","The Void","Jungle","Slayer","Skirmisher","Voidborn",2022,None,Melee,Female
 "Blitzcranck","Zaun","Support","Controller","Catcher","Golem",2009,Mana,Melee,Male
 "Brand","Freljord","Mid,Support","Mage","Burst","Human",2011,Mana,Ranged,Male
@@ -22,7 +22,7 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Caitlyn","Piltover","Bot","Marksman","Marksman","Human",2011,Mana,Ranged,Female
 "Camille","Piltover","Top","Fighter","Diver","Human",2016,Mana,Melee,Female
 "Cassiopeia","Shurima,Noxus","Mid","Mage","Battlemage","Serpant",2014,Mana,Ranged,Female
-"Cho'Gath","The Void","Top","Specialist","Vanguard","Voidborn",2009,Mana,Melee,None
+"Cho'Gath","The Void","Top","Specialist","Vanguard","Voidborn",2009,Mana,Melee,Genderless
 "Corki","Bandle City,Piltover","Mid","Marksman","Marksman","Yordle",2009,Mana,Ranged,Male
 "Darius","Noxus","Top","Fighter","Juggernaut","Human",2012,Mana,Melee,Male
 "Diana","Targon","Jungle","Slayer","Assassin,Diver","Human,Aspect",2012,Mana,Melee,Female
@@ -32,7 +32,7 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Elise","Noxus","Jungle","Slayer","Diver","Human",2014,Mana,Both,Female
 "Evelynn","Runeterra,Demacia","Jungle","Slayer","Assassin","Demon",2009,Mana,Melee,Female
 "Ezreal","Piltover","Bot","Marksman","Marksman","Human",2010,Mana,Ranged,Male
-"Fiddlesticks","Runeterra,Demacia","Jungle","Specialist","Battlemage","Demon",2009,Mana,Ranged,None
+"Fiddlesticks","Runeterra,Demacia","Jungle","Specialist","Battlemage","Demon",2009,Mana,Ranged,Genderless
 "Fiora","Demacia","Top","Fighter","Skirmisher","Human",2012,Mana,Melee,Female
 "Fizz","Bilgewater, Bandle City","Mid","Slayer","Assassin","Yordle",2011,Mana,Melee,Male
 "Galio","Demacia","Mid","Tank","Warden","Golem",2009,Mana,Melee,Male
@@ -64,10 +64,10 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Kayle","Targon,Demacia","Top","Specialist","Skirmisher","Ascended",2009,Mana,Both,Female
 "Kayn","Noxus,Ionia","Jungle","Fighter","Assassin,Juggernaut,Skirmisher","Human,Darkin",2017,Mana,Melee,Male
 "Kennen","Bandle City,Ionia","Top","Specialist","Battlemage","Yordle",2010,Energy,Ranged,Male
-"Kha'Zix","The Void,Ixtal","Jungle","Slayer","Assassin","Voidborn",2012,Mana,Melee,None
+"Kha'Zix","The Void,Ixtal","Jungle","Slayer","Assassin","Voidborn",2012,Mana,Melee,Genderless
 "Kindred","Runeterra","Jungle","Marksman","Assassin","Spirit",2015,Mana,Ranged,None
 "Kled","Noxus","Top","Fighter","Skirmisher","Yordle",2016,Other,Melee,Male
-"Kog'Maw","The Void","Bot","Marksman","Artillery","Voidborn",2010,Mana,Ranged,None
+"Kog'Maw","The Void","Bot","Marksman","Artillery","Voidborn",2010,Mana,Ranged,Genderless
 "Leblanc","Noxus","Mid","Mage","Burst","Human",2010,Mana,Ranged,Female
 "Lee Sin","Ionia","Jungle","Fighter","Diver","Human",2011,Energy,Melee,Male
 "Leona","Targon","Support","Tank","Vanguard","Human,Aspect",2011,Mana,Melee,Female
@@ -91,7 +91,7 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Neeko","Ixtal","Mid","Mage","Burst,Catcher","Vastaya,Vastayashai'Rei",2018,Mana,Ranged,Female
 "Nidalee","Ixtal","Jungle","Specialist","Assassin,Artillery,Burst","Human",2009,Mana,Both,Female
 "Nilah","Bilgewater","Bot","Marksman","Skirmisher","Human",2023,Mana,Ranged,Female
-"Nocturne","Demacia","Jungle","Slayer","Assassin","Demon",2009,Mana,Melee,None
+"Nocturne","Demacia","Jungle","Slayer","Assassin","Demon",2009,Mana,Melee,Genderless
 "Nunu & Willump","Freljord","Jungle","Tank","Vanguard","Human,Yeti,Elemental",2009,Mana,Melee,Male
 "Olaf","Freljord","Top,Jungle","Fighter","Diver","Human",2010,Mana,Melee,Male
 "Orianna","Piltover","Mid","Mage","Burst","Golem",2011,Mana,Ranged,Female
@@ -116,13 +116,13 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Senna","Demacia,Shadow Isles","Bot,Support","Marksman","Enchanter","Human,Specter",2019,Mana,Ranged,Female
 "Seraphine","Piltover","Support","Mage","Burst,Enchanter","Human",2020,Mana,Ranged,Female
 "Sett","Ionia","Top","Fighter","Juggernaut","Vastaya",2020,Other,Melee,Male
-"Shaco","Runeterra","Jungle","Slayer","Assassin","Demon",2009,Mana,Melee,None
+"Shaco","Runeterra","Jungle","Slayer","Assassin","Demon",2009,Mana,Melee,Genderless
 "Shen","Ionia","Top","Tank","Warden","Human",2010,Energy,Melee,Male
 "Shyvanna","Demacia","Jungle","Fighter","Juggernaut","Dragon",2011,Other,Melee,Female
 "Singed","Zaun","Top","Specialist","Vanguard","Human",2009,Mana,Melee,Male
 "Sion","Noxus","Top","Tank","Vanguard","Human,Specter",2009,Mana,Melee,Male
 "Sivir","Shurima","Bot","Marksman","Marksman","Human",2009,Mana,Ranged,Female
-"Skarner","Shurima","Jungle","Tank","Vanguard","Elemental,Brackern",2011,Mana,Melee,None
+"Skarner","Shurima","Jungle","Tank","Vanguard","Elemental,Brackern",2011,Mana,Melee,Genderless
 "Smolder","Noxus,Runeterra","Bot","Marksman","Marksman","Dragon",2024,Mana,Ranged,Male
 "Sona","Ionia","Support","Controller","Enchanter","Human,Elemental",2010,Mana,Ranged,Female
 "Soraka","Targon","Support","Controller","Enchanter","Aspect",2009,Mana,Ranged,Female
@@ -145,7 +145,7 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Varus","Ionia","Bot","Marksman","Marksman","Human,Darkin",2012,Mana,Ranged,Male
 "Vayne","Demacia","Bot,Top","Marksman","Marksman","Human",2011,Mana,Ranged,Female
 "Veigar","Bandle City","Mid","Mage","Burst","Yordle",2009,Mana,Ranged,Male
-"Vel'Koz","The Void","Mid","Mage","Artillery","Voidborn",2014,Mana,Ranged,None
+"Vel'Koz","The Void","Mid","Mage","Artillery","Voidborn",2014,Mana,Ranged,Genderless
 "Vex","Shadow Isles,Bandle City","Mid","Mage","Burst","Yordle",2021,Mana,Ranged,Female
 "Vi","Zaun,Piltover","Jungle","Fighter","Diver","Human",2012,Mana,Melee,Female
 "Viego","Shadow Isles","Jungle","Fighter","Skirmisher","Specter",2021,None,Melee,Male
@@ -161,8 +161,8 @@ name,region,role,class,subclass,specie,release_year,resources,range,gender
 "Yone","Ionia","Mid,Top","Slayer","Skirmisher,Assassin","Human,Specter",2020,None,Melee,Male
 "Yorick","Shadow Isles","Top","Fighter","Juggernaut","Human,Specter",2011,Mana,Melee,Male
 "Yuumi","Bandle City","Support","Controller","Enchanter","Elemental",2019,Mana,Ranged,Female
-"Zac","Zaun","Jungle","Tank","Vanguard","Mutant",2013,None,Melee,None
-"Zed","Ionia","Mid","Slayer","Assassin","Human",2012,Energy,Melee,Male
+"Zac","Zaun","Jungle","Tank","Vanguard","Mutant",2013,None,Melee,Genderless
+Zed,"Ionia","Mid","Slayer","Assassin","Human",2012,Energy,Melee,Male
 "Zeri","Zaun","Bot","Marksman","Marksman","Human",2022,Mana,Ranged,Female
 "Ziggs","Bandle City,Piltover,Zaun,Shurima","Mid","Mage","Artillery","Yordle",2012,Mana,Ranged,Male
 "Zilean","Ichathia","Support","Specialist","Enchanter","Human,Elemental",2009,Mana,Ranged,Male

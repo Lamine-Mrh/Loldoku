@@ -1,109 +1,358 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Create a container for the dropdown (we'll position this next to the input)
-    const dropdownContainer = document.getElementById('dropdown-container');
-    dropdownContainer.style.position = 'absolute';
-    dropdownContainer.style.zIndex = '1000';  // Ensure it's above other content
-    dropdownContainer.style.backgroundColor = 'white';
+    const maxTries = 9;
+    let remainingTries = maxTries;
 
-    document.querySelectorAll('input').forEach(input => {
-        // Event listener to handle input and fetch suggestions
-        input.addEventListener('input', async function () {
+    // Variables for scoring and streak
+    let score = 0;
+    let streak = 0;
+    const startTime = Date.now();
+    let highScore = localStorage.getItem("highScore") || 0;
+
+    // Set to keep track of selected champions
+    const selectedChampions = new Set();
+
+    // Display remaining tries
+    const triesDisplay = document.createElement("div");
+    triesDisplay.id = "tries-display";
+    triesDisplay.textContent = `Mana: ${remainingTries}/9`;
+    document.body.insertBefore(triesDisplay, document.querySelector("table"));
+
+    // Display score, streak, and high score
+    const scoreDisplay = document.createElement("div");
+    scoreDisplay.id = "score-display";
+    scoreDisplay.textContent = `Score: ${score} | Streak: ${streak} | High Score: ${highScore}`;
+    document.body.insertBefore(scoreDisplay, triesDisplay);
+
+    const dropdownContainer = document.getElementById("dropdown-container");
+    dropdownContainer.style.position = "absolute";
+    dropdownContainer.style.zIndex = "1000";
+    dropdownContainer.style.backgroundColor = "white";
+
+    const attributes = {
+        region: ["Demacia", "Freljord", "Ionia", "Piltover", "Zaun", "Noxus", "Ixtal", "Shurima", "Bilgewater", "Shadow Isles", "Targon", "Bandle City", "Runeterra", "The Void"],
+        role: ["Top", "Mid", "Bot", "Support", "Jungle"],
+        type: ["Tank", "Fighter", "Mage", "Marksman", "Slayer", "Controller","Specialist"],
+        subclass: ["Vanguard", "Warden", "Artillery", "Burst", "Battlemage", "Diver","Juggernaut","Marksman","Assassin","Skirmisher","Enchanter","Catcher"],
+        specie: ["Human", "Yordle", "Voidborn", "Golem", "Darkin", "Mutant","Aspect","Ascended","Dragon","Elemental","Spirit","Specter"],
+        gender: ["Male", "Female", "Genderless"],
+        resource: ["Mana", "Energy", "None", "Other"],
+        range: ["Melee", "Ranged","Both"],
+        release_year: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022,2023,2024], // You can add more years here
+    };
+    
+    // Helper function to shuffle arrays
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+    }
+
+    function getKeyFromValue(obj, value) {
+        console.log("Looking for value:", value);
+        for (const key in obj) {
+            if (Array.isArray(obj[key])) {
+                const normalizedValue = typeof obj[key][0] === "number" ? Number(value) : String(value); // Normalize type
+                if (obj[key].includes(normalizedValue)) {
+                    console.log(`Found match for ${value} in key: ${key}`);
+                    return key;
+                }
+            } else if (obj[key] === value) {
+                console.log(`Found match for ${value} in key: ${key}`);
+                return key;
+            }
+        }
+        console.log(`No match found for value: ${value}`);
+        return null; // If value is not found
+    }
+    
+    // Helper function to get a random attribute from the list
+    function getRandomAttribute(attributeList) {
+        return attributeList[Math.floor(Math.random() * attributeList.length)];
+    }
+
+    // Shuffle arrays for more randomization
+    shuffle(attributes.region);
+    shuffle(attributes.role);
+    shuffle(attributes.type);
+    shuffle(attributes.subclass);
+    shuffle(attributes.specie);
+    shuffle(attributes.gender);
+    shuffle(attributes.resource);
+    shuffle(attributes.range);
+    shuffle(attributes.release_year);
+
+    // Create the table dynamically
+    const gameTable = document.getElementById('game-table');
+    const columnHeaders = document.getElementById('column-headers');
+    const rowsContainer = document.getElementById('rows');
+
+    // Randomize the row attributes (e.g., region, class, etc.)
+    const TheAttributes = {
+        region: getRandomAttribute(attributes.region),
+        role: getRandomAttribute(attributes.role),
+        type: getRandomAttribute(attributes.type),
+        subclass: getRandomAttribute(attributes.subclass),
+        specie: getRandomAttribute(attributes.specie),
+        gender: getRandomAttribute(attributes.gender),
+        range: getRandomAttribute(attributes.range),
+        release_year: String(getRandomAttribute(attributes.release_year)),
+        resource: getRandomAttribute(attributes.resource),
+    };
+
+    // Columns: Randomize the attributes to be used as columns
+    const columnAttributes = [
+        'region', 'role', 'type', 'subclass', 'specie', 'gender', 'range', 'release_year', 'resource'
+    ];
+
+    // Shuffle column attributes
+    shuffle(columnAttributes);
+
+    // Select the first 3 attributes after shuffle
+    const selectedColumns = columnAttributes.slice(0, 3);
+
+    // Create column headers dynamically
+    
+    selectedColumns.forEach(attr => {
+        const th = document.createElement('th');
+        const randomAttributeValue = TheAttributes[attr];
+        th.textContent = randomAttributeValue;
+        columnHeaders.appendChild(th);
+    });
+
+
+    // Create rows dynamically
+    const numRows = 3; // Adjust the number of rows you want
+    for (let i = 0; i < numRows; i++) {
+        const row = document.createElement('tr');
+        // Add the row name (can be anything, like the name of the champion or just an index)
+        const randomAttributeKey = Object.keys(TheAttributes)[Math.floor(Math.random() * Object.keys(TheAttributes).length)];
+        const randomAttributeValue = TheAttributes[randomAttributeKey];
+        const th = document.createElement('th');
+        th.textContent = `${randomAttributeKey}:${randomAttributeValue}`;
+        row.appendChild(th);
+
+        // Create a cell for each column
+        selectedColumns.forEach(attr => {
+            const td = document.createElement('td');
+            const input = document.createElement('input');
+            input.setAttribute('data-row', randomAttributeValue);  // Store the row attribute for validation
+            input.setAttribute('data-col', TheAttributes[attr]);  // Store the column attribute for validation
+            td.appendChild(input);
+            row.appendChild(td);
+        });
+
+        rowsContainer.appendChild(row);
+    }
+
+    document.querySelectorAll("input").forEach((input) => {
+        input.dataset.validated = "false"; // Track if the cell is validated
+
+        input.addEventListener("input", async function () {
             const query = input.value.trim();
 
-            if (query.length >= 2) { // Only trigger when query length is >= 2
+            if (query.length >= 2) {
                 try {
                     const response = await fetch(`http://127.0.0.1:5000/search?query=${query}`);
-                    const suggestions = await response.json();
+                    let suggestions = await response.json();
 
-                    // Clear previous suggestions
-                    dropdownContainer.innerHTML = '';
+                    // Filter out already selected champions
+                    suggestions = suggestions.filter((name) => !selectedChampions.has(name));
 
+                    dropdownContainer.innerHTML = "";
                     if (suggestions.length > 0) {
-                        // Sort suggestions: prioritize champions starting with the input query
                         const sortedSuggestions = suggestions.sort((a, b) => {
                             if (a.toLowerCase().startsWith(query.toLowerCase()) && !b.toLowerCase().startsWith(query.toLowerCase())) {
-                                return -1; // 'a' comes first
+                                return -1;
                             } else if (!a.toLowerCase().startsWith(query.toLowerCase()) && b.toLowerCase().startsWith(query.toLowerCase())) {
-                                return 1; // 'b' comes first
+                                return 1;
                             }
-                            return 0; // If both or neither start with the query, keep their order
+                            return 0;
                         });
 
-                        // Create a dropdown list with the sorted suggestions
-                        sortedSuggestions.forEach(name => {
-                            const item = document.createElement('div');
+                        sortedSuggestions.forEach((name, index) => {
+                            const item = document.createElement("div");
                             item.textContent = name;
-                            item.style.padding = '8px';
-                            item.style.cursor = 'pointer';
-                            item.style.borderBottom = '1px solid #ccc';
+                            item.style.padding = "8px";
+                            item.style.cursor = "pointer";
+                            item.style.borderBottom = "1px solid #ccc";
 
-                            // Highlight the item on hover
-                            item.addEventListener('mouseover', () => {
-                                item.style.backgroundColor = '#f0f0f0';
+                            item.addEventListener("mouseover", () => {
+                                item.style.backgroundColor = "#f0f0f0";
                             });
-                            item.addEventListener('mouseout', () => {
-                                item.style.backgroundColor = 'white';
+                            item.addEventListener("mouseout", () => {
+                                item.style.backgroundColor = "white";
                             });
 
-                            // When an item is clicked, autofill the input field, disable it and hide the dropdown
-                            item.addEventListener('click', function () {
+                            item.addEventListener("click", async function () {
                                 input.value = name;
-                                input.disabled = true;  // Disable the input field after selection
-                                dropdownContainer.style.display = 'none';  // Hide the dropdown after selection
+                                dropdownContainer.style.display = "none";
 
-                                // Trigger input validation after selection
                                 const rowAttr = input.dataset.row;
                                 const colAttr = input.dataset.col;
 
-                                // Send validation request to check if the selected champion is valid
-                                fetch('http://127.0.0.1:5000/validate', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        row_attr: 'region',  // Hardcoding as 'region' (could make dynamic)
-                                        col_attr: colAttr,   // Role (Top, Mid, Jungle)
-                                        champion_name: name,
-                                        expected_value_row: rowAttr,  // The row (e.g., Demacia, Ionia, etc.)
-                                        expected_value_col: colAttr  // The column (e.g., Top, Mid, Jungle)
-                                    })
-                                })
-                                .then(response => response.json())
-                                .then(result => {
-                                    if (result.valid) {
-                                        input.style.backgroundColor = 'lightgreen'; // Champion is valid
-                                    } else {
-                                        input.style.backgroundColor = 'lightcoral'; // Champion is invalid
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error validating input:', error);
-                                    input.style.backgroundColor = 'lightcoral'; // Error case
-                                });
-                            });
+                                // Validate input
+                                const champRow = getKeyFromValue(attributes,rowAttr);
+                                const champCol = getKeyFromValue(attributes,colAttr);
 
+                                input.value = name;
+                                dropdownContainer.style.display = "none";
+
+                                const t = "http://127.0.0.1:5000/getChampData?name="
+
+                                console.log(t + name)
+
+                                const champDataResponse = await fetch(t + name);
+                                const champData = await champDataResponse.json();
+
+                                const champRowF = champData[champRow];
+                                const champColF = champData[champCol];
+
+                                console.log(champData)
+                                console.log(getKeyFromValue(TheAttributes,rowAttr)); // Should return the correct key.
+                                console.log(getKeyFromValue(TheAttributes,colAttr)); // Should return the correct key.
+
+                                console.log(champRow,champCol)
+                                console.log(champRowF,champColF)
+                                console.log(rowAttr,colAttr)
+
+                                const validationResponse = await fetch("http://127.0.0.1:5000/validate", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        row_attr: champRowF,
+                                        col_attr: champColF,
+                                        champion_name: name,
+                                        expected_value_row: rowAttr, // Get the row attribute value for comparison
+                                        expected_value_col: colAttr,
+                                    }),
+                                });
+
+                                const result = await validationResponse.json();
+
+                                if (result.valid) {
+                                    input.style.backgroundColor = "lightgreen"; // Mark as correct
+                                    input.disabled = true; // Disable input
+                                    input.dataset.validated = "true"; // Mark as validated
+                                    selectedChampions.add(name); // Add to selected champions
+                                    score += 10 + streak * 5; // Add score with streak multiplier
+                                    streak++; // Increase streak
+                                } else {
+                                    input.style.backgroundColor = "lightcoral"; // Mark as incorrect
+                                    input.value = ""; // Clear the input
+                                    score = Math.max(0, score - 5); // Deduct points for incorrect answer
+                                    streak = 0; // Reset streak
+                                }
+
+                                // Deduct one try per selection
+                                remainingTries--;
+                                triesDisplay.textContent = `Mana: ${remainingTries}/9`;
+                                scoreDisplay.textContent = `Score: ${score} | Streak: ${streak} | High Score: ${highScore}`;
+
+                                // Check game state
+                                checkGameState();
+                            });
                             dropdownContainer.appendChild(item);
                         });
 
-                        // Position the dropdown directly under the input field
                         const rect = input.getBoundingClientRect();
                         dropdownContainer.style.left = `${rect.left + window.scrollX}px`;
                         dropdownContainer.style.top = `${rect.bottom + window.scrollY}px`;
                         dropdownContainer.style.width = `${rect.width}px`;
-                        dropdownContainer.style.display = 'block';
+                        dropdownContainer.style.display = "block";
                     }
                 } catch (error) {
-                    console.error('Error fetching suggestions:', error);
+                    console.error("Error fetching suggestions:", error);
                 }
             } else {
-                dropdownContainer.style.display = 'none'; // Hide dropdown if query length is less than 2
+                dropdownContainer.style.display = "none";
             }
         });
 
-        // Hide the dropdown when clicking outside the dropdown or input field
-        document.addEventListener('click', function (event) {
+        // Listen for Enter key press to select the first suggestion
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && dropdownContainer.children.length > 0) {
+                const firstSuggestion = dropdownContainer.children[0];
+                firstSuggestion.click();
+            }
+        });
+
+        document.addEventListener("click", function (event) {
             if (!input.contains(event.target) && !dropdownContainer.contains(event.target)) {
-                dropdownContainer.style.display = 'none';  // Hide dropdown if clicked outside
+                dropdownContainer.style.display = "none";
             }
         });
     });
+
+    function checkGameState() {
+        const inputs = document.querySelectorAll("input");
+        const allValidated = Array.from(inputs).every((input) => input.dataset.validated === "true");
+
+        if (remainingTries <= 0) {
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Time in seconds
+            const timePenalty = Math.floor(elapsedTime / 10); // Deduct 1 point per 10 seconds
+            score = Math.max(0, score - timePenalty); // Apply time-based penalty
+
+            if (score > highScore) {
+                highScore = score; // Update high score
+                localStorage.setItem("highScore", highScore);
+            }
+
+            // Create a result container
+            const resultContainer = document.createElement("div");
+            resultContainer.id = "result-container";
+            resultContainer.style.position = "fixed";
+            resultContainer.style.top = "50%";
+            resultContainer.style.left = "50%";
+            resultContainer.style.transform = "translate(-50%, -50%)";
+            resultContainer.style.padding = "20px";
+            resultContainer.style.backgroundColor = "#fff";
+            resultContainer.style.border = "2px solid #ccc";
+            resultContainer.style.zIndex = "2000";
+            resultContainer.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+            resultContainer.style.textAlign = "center";
+            resultContainer.style.fontSize = "20px";
+            resultContainer.style.color = "#333";
+
+            // Darken the background
+            const overlay = document.createElement("div");
+            overlay.style.position = "fixed";
+            overlay.style.top = "0";
+            overlay.style.left = "0";
+            overlay.style.width = "100%";
+            overlay.style.height = "100%";
+            overlay.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+            overlay.style.zIndex = "1000";
+            document.body.appendChild(overlay);
+
+            const resultMessage = document.createElement("p");
+            resultMessage.textContent = allValidated
+                ? `Victory! You filled all cells correctly!\nFinal Score: ${score}\nHigh Score: ${highScore}` 
+                : `Defeat! You ran out of tries.\nFinal Score: ${score}\nHigh Score: ${highScore}`;
+            resultContainer.appendChild(resultMessage);
+
+            const proceedButton = document.createElement("button");
+            proceedButton.textContent = "Proceed";
+            proceedButton.style.marginTop = "20px";
+            proceedButton.style.padding = "10px 20px";
+            proceedButton.style.fontSize = "16px";
+            proceedButton.style.cursor = "pointer";
+
+            proceedButton.addEventListener("click", function () {
+                resultContainer.remove();
+                overlay.remove();
+            });
+
+            resultContainer.appendChild(proceedButton);
+            document.body.appendChild(resultContainer);
+
+            // Disable all inputs when the game ends
+            inputs.forEach((input) => {
+                input.disabled = true;
+            });
+
+            // Stop further actions (no reset here).
+            return;
+        }
+    }
 });

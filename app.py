@@ -45,10 +45,11 @@ class Champion(db.Model):
     __tablename__ = 'champion'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
-    release_year = db.Column(db.Integer)
+    release_year = db.Column(db.String(50))
     resources = db.Column(db.String(50))
     range = db.Column(db.String(50))
     gender = db.Column(db.String(50))
+    type = db.Column(db.String(50))
 
     # Many-to-many relationships
     regions = db.relationship('Region', secondary='champion_region', back_populates='champions')
@@ -106,46 +107,120 @@ def search():
 def get_champion_by_name(name):
     return Champion.query.filter_by(name=name).first()
 
+@app.route('/getChampData', methods=['GET'])
+def get_champ_data():
+    champion_name = request.args.get('name')  # Get the champion's name from the query string
+    if not champion_name:
+        return jsonify({'error': 'Champion name is required'}), 400  # Return error if no name is provided
+
+    # Query the champion by name
+    champion = Champion.query.filter_by(name=champion_name).first()
+    if not champion:
+        return jsonify({'error': f"Champion '{champion_name}' not found in the database"}), 404
+
+    # Prepare the champion data to return
+    champion_data = {
+        'name': champion.name,
+        'release_year': champion.release_year,
+        'resource': champion.resources,
+        'range': champion.range,
+        'gender': champion.gender,
+        'region': [region.name for region in champion.regions],
+        'role': [role.name for role in champion.roles],
+        'subclass': [subclass.name for subclass in champion.subclasses],
+        'specie': [specie.name for specie in champion.species],
+        'type': champion.type
+    }
+
+    return jsonify(champion_data)
+
 @app.route('/validate', methods=['POST'])
 def validate_input():
     data = request.get_json()
-    row_attr = data.get('row_attr')  # Region (e.g., 'Demacia')
-    col_attr = data.get('col_attr')  # Role (e.g., 'Top')
+    row_attr = data.get('row_attr')
+    col_attr = data.get('col_attr')
     champion_name = data.get('champion_name')
-    expected_value_row = data.get('expected_value_row')  # Expected region (e.g., 'Demacia')
-    expected_value_col = data.get('expected_value_col')  # Expected role (e.g., 'Top')
+    expected_value_row = data.get('expected_value_row')
+    expected_value_col = data.get('expected_value_col')
 
-    # Get the champion from the database
+    # Fetch the champion
     champion = get_champion_by_name(champion_name)
     if not champion:
         print(f"[DEBUG] Champion '{champion_name}' not found in the database.")
         return jsonify({'valid': False, 'error': 'Champion not found'}), 400
 
-    print(f"[DEBUG] Validating champion '{champion_name}' with row: {row_attr}, column: {col_attr}, expected region: {expected_value_row}, expected role: {expected_value_col}")
+    print(f"[DEBUG] Validating champion '{champion_name}' with attributes: row_attr={row_attr}, col_attr={col_attr}, expected_row={expected_value_row}, expected_col={expected_value_col}")
 
-    # Perform the validation based on the row (region) and column (role) attributes
-    is_valid = False
+    is_valid = True
+    errors = []
 
-    # Check if the region matches the expected value (row)
+    # Validate based on row_attr
     if row_attr == 'region':
-        valid_regions = [region.name for region in champion.regions]
-        print(f"[DEBUG] Champion '{champion_name}' regions: {valid_regions}. Expected region: {expected_value_row}")
-        is_valid = expected_value_row in valid_regions
+        valid_values = [region.name for region in champion.regions]
+        print(f"[DEBUG] Regions for '{champion_name}': {valid_values}")
+        if expected_value_row not in valid_values:
+            is_valid = False
+            errors.append(f"Invalid region. Expected: {expected_value_row}, Found: {valid_values}")
 
-    # Check if the role matches the expected value (column)
-    if col_attr == 'Top' or col_attr == 'Mid' or col_attr == 'Jungle':
-        valid_roles = [role.name for role in champion.roles]
-        print(f"[DEBUG] Champion '{champion_name}' roles: {valid_roles}. Expected role: {expected_value_col}")
-        is_valid = is_valid and expected_value_col in valid_roles  # Both region and role must be valid
+    elif row_attr == 'role':
+        valid_values = [role.name for role in champion.roles]
+        print(f"[DEBUG] Roles for '{champion_name}': {valid_values}")
+        if expected_value_row not in valid_values:
+            is_valid = False
+            errors.append(f"Invalid role. Expected: {expected_value_row}, Found: {valid_values}")
 
-    # Print debug info based on validation result
+    elif row_attr == 'subclass':
+        valid_values = [subclass.name for subclass in champion.subclasses]
+        print(f"[DEBUG] Subclasses for '{champion_name}': {valid_values}")
+        if expected_value_row not in valid_values:
+            is_valid = False
+            errors.append(f"Invalid subclass. Expected: {expected_value_row}, Found: {valid_values}")
+
+    elif row_attr == 'specie':
+        valid_values = [specie.name for specie in champion.species]
+        print(f"[DEBUG] Species for '{champion_name}': {valid_values}")
+        if expected_value_row not in valid_values:
+            is_valid = False
+            errors.append(f"Invalid specie. Expected: {expected_value_row}, Found: {valid_values}")
+
+    elif row_attr == 'release_year':
+        valid_value = champion.release_year
+        print(f"[DEBUG] Release year for '{champion_name}': {valid_value}")
+        if str(expected_value_row) != str(valid_value):
+            is_valid = False
+            errors.append(f"Invalid release year. Expected: {expected_value_row}, Found: {valid_value}")
+
+    elif row_attr == 'resources':
+        valid_value = champion.resources
+        print(f"[DEBUG] Resources for '{champion_name}': {valid_value}")
+        if expected_value_row != valid_value:
+            is_valid = False
+            errors.append(f"Invalid resource. Expected: {expected_value_row}, Found: {valid_value}")
+
+    elif row_attr == 'range':
+        valid_value = champion.range
+        print(f"[DEBUG] Range for '{champion_name}': {valid_value}")
+        if expected_value_row != valid_value:
+            is_valid = False
+            errors.append(f"Invalid range. Expected: {expected_value_row}, Found: {valid_value}")
+
+    elif row_attr == 'gender':
+        valid_value = champion.gender
+        print(f"[DEBUG] Gender for '{champion_name}': {valid_value}")
+        if expected_value_row != valid_value:
+            is_valid = False
+            errors.append(f"Invalid gender. Expected: {expected_value_row}, Found: {valid_value}")
+
+    # Validate based on col_attr (similar logic as above)
+    # Add the col_attr validation logic here
+
+    # Final result
     if is_valid:
-        print(f"[DEBUG] Champion '{champion_name}' is valid.")
+        print(f"[DEBUG] Champion '{champion_name}' validation PASSED.")
     else:
-        print(f"[DEBUG] Champion '{champion_name}' is NOT valid.")
+        print(f"[DEBUG] Champion '{champion_name}' validation FAILED with errors: {errors}")
 
-    return jsonify({'valid': is_valid})
-
+    return jsonify({'valid': is_valid, 'errors': errors})
 
 
 # Run the Flask app
