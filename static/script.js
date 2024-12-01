@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const attributes = {
         region: ["Demacia", "Freljord", "Ionia", "Piltover", "Zaun", "Noxus", "Ixtal", "Shurima", "Bilgewater", "Shadow Isles", "Targon", "Bandle City", "Runeterra", "The Void"],
         role: ["Top", "Mid", "Bot", "Support", "Jungle"],
-        type: ["Tank", "Fighter", "Mage", "Marksman", "Slayer", "Controller","Specialist"],
+        champion_type: ["Tank", "Fighter", "Mage", "Marksman", "Slayer", "Controller","Specialist"],
         subclass: ["Vanguard", "Warden", "Artillery", "Burst", "Battlemage", "Diver","Juggernaut","Marksman","Assassin","Skirmisher","Enchanter","Catcher"],
         specie: ["Human", "Yordle", "Voidborn", "Golem", "Darkin", "Mutant","Aspect","Ascended","Dragon","Elemental","Spirit","Specter"],
         gender: ["Male", "Female", "Genderless"],
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Looking for value:", value);
         for (const key in obj) {
             if (Array.isArray(obj[key])) {
-                const normalizedValue = typeof obj[key][0] === "number" ? Number(value) : String(value); // Normalize type
+                const normalizedValue = typeof obj[key][0] === "number" ? Number(value) : String(value); // Normalize champion_type
                 if (obj[key].includes(normalizedValue)) {
                     console.log(`Found match for ${value} in key: ${key}`);
                     return key;
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Shuffle arrays for more randomization
     shuffle(attributes.region);
     shuffle(attributes.role);
-    shuffle(attributes.type);
+    shuffle(attributes.champion_type);
     shuffle(attributes.subclass);
     shuffle(attributes.specie);
     shuffle(attributes.gender);
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const TheAttributes = {
         region: getRandomAttribute(attributes.region),
         role: getRandomAttribute(attributes.role),
-        type: getRandomAttribute(attributes.type),
+        champion_type: getRandomAttribute(attributes.champion_type),
         subclass: getRandomAttribute(attributes.subclass),
         specie: getRandomAttribute(attributes.specie),
         gender: getRandomAttribute(attributes.gender),
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Columns: Randomize the attributes to be used as columns
     const columnAttributes = [
-        'region', 'role', 'type', 'subclass', 'specie', 'gender', 'range', 'release_year', 'resource'
+        'region', 'role', 'champion_type', 'subclass', 'specie', 'gender', 'range', 'release_year', 'resource'
     ];
 
     // Shuffle column attributes

@@ -49,7 +49,7 @@ class Champion(db.Model):
     resources = db.Column(db.String(50))
     range = db.Column(db.String(50))
     gender = db.Column(db.String(50))
-    type = db.Column(db.String(50))
+    champion_type = db.Column(db.String(50))
 
     # Many-to-many relationships
     regions = db.relationship('Region', secondary='champion_region', back_populates='champions')
@@ -129,7 +129,7 @@ def get_champ_data():
         'role': [role.name for role in champion.roles],
         'subclass': [subclass.name for subclass in champion.subclasses],
         'specie': [specie.name for specie in champion.species],
-        'type': champion.type
+        'champion_type': champion.champion_type
     }
 
     return jsonify(champion_data)
