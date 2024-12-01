@@ -6,8 +6,6 @@ __pycache__/
 # Ignore the virtual environment directory
 venv1/
 
-# Ignore Flask instance folder
-instance/
 
 # Ignore configuration files, if any (e.g., local configuration files)
 config.py
@@ -25,3 +23,6 @@ Thumbs.db
 
 # Ignore environment variable files
 .env
+
+import.py
+champions.csv
