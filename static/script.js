@@ -1,4 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    window.onload = function() {
+        const modal = document.getElementById('welcome-modal');
+        const overlay = document.getElementById('overlay');
+        const startButton = document.getElementById('start-button');
+    
+        // Display the modal and overlay
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+    
+        // Hide the modal and overlay when "Let's go" button is clicked
+        startButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    };
     const maxTries = 9;
     let remainingTries = maxTries;
 

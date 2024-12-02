@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -9,7 +10,11 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"]}})
 
 # Set up database URI (adjust if needed for your setup)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///champions.db'  # SQLite database file
+if 'DATABASE_URL' in os.environ:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']  # Heroku PostgreSQL
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///champions.db'  # SQLite for local testing
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize the database
@@ -92,6 +97,10 @@ def create_tables():
     with app.app_context():
         db.create_all()
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 # Search route to handle champion search
 @app.route('/search')
 def search():
@@ -218,4 +227,4 @@ def validate_input():
 # Run the Flask app
 if __name__ == '__main__':
     create_tables()  # Create tables if they don't exist
-    app.run(debug=True)
+    #app.run(debug=True)
