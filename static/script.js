@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 console.log(champRowF,champColF)
                                 console.log(rowAttr,colAttr)
 
-                                const validationResponse = await fetch("http://127.0.0.1:5000/validate", {
+                                const validationResponse = await fetch("https://loldoku.onrender.com/validate", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({
