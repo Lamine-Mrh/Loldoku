@@ -97,7 +97,7 @@ input {
     }
     
     #column-headers th {
-        transform: translateX(0); /* Remove header translation for smaller screens */
+        transform: translateX(161px); /* Remove header translation for smaller screens */
     }
     
     #credits {
@@ -127,6 +127,7 @@ input {
     }
     
     #column-headers th {
+        transform: translateX(111px);
         font-size: 14px; /* Adjust font size for smaller screens */
     }
     
