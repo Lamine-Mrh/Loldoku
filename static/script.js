@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (query.length >= 2) {
                 try {
                     const backendUrl = "https://loldoku.onrender.com";  // Correct URL // Replace with your actual Render URL
-                    fetch(`${backendUrl}/search?query=${query}`)
+                    const response = fetch(`${backendUrl}/search?query=${query}`)
                     let suggestions = await response.json();
 
                     // Filter out already selected champions
