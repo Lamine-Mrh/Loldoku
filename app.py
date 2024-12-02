@@ -227,4 +227,4 @@ def validate_input():
 # Run the Flask app
 if __name__ == '__main__':
     create_tables()  # Create tables if they don't exist
-    app.run(debug=True)
+    #app.run(debug=True)
