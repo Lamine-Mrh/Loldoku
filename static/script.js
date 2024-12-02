@@ -65,20 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getKeyFromValue(obj, value) {
-        console.log("Looking for value:", value);
         for (const key in obj) {
             if (Array.isArray(obj[key])) {
                 const normalizedValue = typeof obj[key][0] === "number" ? Number(value) : String(value); // Normalize champion_type
                 if (obj[key].includes(normalizedValue)) {
-                    console.log(`Found match for ${value} in key: ${key}`);
                     return key;
                 }
             } else if (obj[key] === value) {
-                console.log(`Found match for ${value} in key: ${key}`);
                 return key;
             }
         }
-        console.log(`No match found for value: ${value}`);
         return null; // If value is not found
     }
     
@@ -169,7 +165,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 try {
                     const backendUrl = "https://loldoku.onrender.com";  // Correct URL // Replace with your actual Render URL
                     const response = fetch(`https://loldoku.onrender.com/search?query=${query}`)
+                    console.log(response); // Log response to check its structure
+    
+                    if (!response.ok) {
+                        throw new Error(`Server returned an error: ${response.status} ${response.statusText}`);
+                    }
                     let suggestions = await response.json();
+                    console.log(suggestions);
 
                     // Filter out already selected champions
                     suggestions = suggestions.filter((name) => !selectedChampions.has(name));
@@ -213,23 +215,14 @@ document.addEventListener("DOMContentLoaded", function () {
                                 input.value = name;
                                 dropdownContainer.style.display = "none";
 
-                                const t = "http://127.0.0.1:5000/getChampData?name="
+                                const t = "https://loldoku.onrender.com/getChampData?name="
 
-                                console.log(t + name)
 
                                 const champDataResponse = await fetch(t + name);
                                 const champData = await champDataResponse.json();
 
                                 const champRowF = champData[champRow];
                                 const champColF = champData[champCol];
-
-                                console.log(champData)
-                                console.log(getKeyFromValue(TheAttributes,rowAttr)); // Should return the correct key.
-                                console.log(getKeyFromValue(TheAttributes,colAttr)); // Should return the correct key.
-
-                                console.log(champRow,champCol)
-                                console.log(champRowF,champColF)
-                                console.log(rowAttr,colAttr)
 
                                 const validationResponse = await fetch("https://loldoku.onrender.com/validate", {
                                     method: "POST",
