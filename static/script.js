@@ -167,7 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (query.length >= 2) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:5000/search?query=${query}`);
+                    const t = "https://loldoku.onrender.com/getChampData?name="
+                    const f = "https://loldoku.onrender.com/search?query="
+                    console.log(query)
+                    const response = await fetch(f + query);
                     let suggestions = await response.json();
 
                     // Filter out already selected champions
@@ -212,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 input.value = name;
                                 dropdownContainer.style.display = "none";
 
-                                const t = "http://127.0.0.1:5000/getChampData?name="
+                                
 
                                 console.log(t + name)
 
