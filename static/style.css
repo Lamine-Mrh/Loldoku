@@ -10,17 +10,25 @@ body {
 }
 
 table {
-    margin: 0 auto;
-    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed; /* Ensures consistent column widths */
 }
 
 th, td {
-    border: 1px solid transparent; /* Set borders to transparent */
-    padding: 10px;
     text-align: center;
-    vertical-align: middle;
+    padding: 8px;
 
 }
+
+#column-headers th {
+    transform: translateX(327px);
+    background-color: #f4f4f47c; /* Optional: You can style the header differently */
+}
+
+#rows {
+    background-color: #f4f4f47c; /* Optional: You can style the header differently */
+}
+
 
 input {
     width: 100px;
@@ -73,4 +81,64 @@ input {
 
 #credits a:hover {
     text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    input {
+        width: 80%; /* Adjust input size on smaller screens */
+    }
+    
+    table {
+        width: 100%;
+    }
+    
+    #column-headers th {
+        transform: translateX(0); /* Remove header translation for smaller screens */
+    }
+    
+    #credits {
+        font-size: 12px;
+    }
+    
+    .dropdown {
+        font-size: 12px; /* Make the dropdown text smaller */
+    }
+    
+    .dropdown div {
+        padding: 6px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+    
+    input {
+        width: 100%; /* Full width input on very small screens */
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    #column-headers th {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+    
+    #credits {
+        font-size: 10px;
+    }
+    
+    .dropdown {
+        font-size: 12px; /* Smaller font for very small screens */
+    }
+    
+    .dropdown div {
+        padding: 5px; /* Smaller padding for very small screens */
+    }
 }

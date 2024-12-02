@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         subclass: ["Vanguard", "Warden", "Artillery", "Burst", "Battlemage", "Diver","Juggernaut","Marksman","Assassin","Skirmisher","Enchanter","Catcher"],
         specie: ["Human", "Yordle", "Voidborn", "Golem", "Darkin", "Mutant","Aspect","Ascended","Dragon","Elemental","Spirit","Specter"],
         gender: ["Male", "Female", "Genderless"],
-        resource: ["Mana", "Energy", "None", "Other"],
+        resource_type: ["Mana", "Energy", "Manaless", "Other"],
         range: ["Melee", "Ranged","Both"],
         release_year: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022,2023,2024], // You can add more years here
     };
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     shuffle(attributes.subclass);
     shuffle(attributes.specie);
     shuffle(attributes.gender);
-    shuffle(attributes.resource);
+    shuffle(attributes.resource_type);
     shuffle(attributes.range);
     shuffle(attributes.release_year);
 
@@ -97,12 +97,12 @@ document.addEventListener("DOMContentLoaded", function () {
         gender: getRandomAttribute(attributes.gender),
         range: getRandomAttribute(attributes.range),
         release_year: String(getRandomAttribute(attributes.release_year)),
-        resource: getRandomAttribute(attributes.resource),
+        resource_type: getRandomAttribute(attributes.resource_type),
     };
 
     // Columns: Randomize the attributes to be used as columns
     const columnAttributes = [
-        'region', 'role', 'champion_type', 'subclass', 'specie', 'gender', 'range', 'release_year', 'resource'
+        'region', 'role', 'champion_type', 'subclass', 'specie', 'gender', 'range', 'release_year', 'resource_type'
     ];
 
     // Shuffle column attributes
@@ -112,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedColumns = columnAttributes.slice(0, 3);
 
     // Create column headers dynamically
-    
     selectedColumns.forEach(attr => {
         const th = document.createElement('th');
         const randomAttributeValue = TheAttributes[attr];
@@ -125,11 +124,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const numRows = 3; // Adjust the number of rows you want
     for (let i = 0; i < numRows; i++) {
         const row = document.createElement('tr');
-        // Add the row name (can be anything, like the name of the champion or just an index)
         const randomAttributeKey = Object.keys(TheAttributes)[Math.floor(Math.random() * Object.keys(TheAttributes).length)];
         const randomAttributeValue = TheAttributes[randomAttributeKey];
         const th = document.createElement('th');
-        th.textContent = `${randomAttributeKey}:${randomAttributeValue}`;
+        th.textContent = `${randomAttributeValue}`;
         row.appendChild(th);
 
         // Create a cell for each column
@@ -222,6 +220,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     body: JSON.stringify({
                                         row_attr: champRowF,
                                         col_attr: champColF,
+                                        row_a: champRow,
+                                        col_a:champCol,
                                         champion_name: name,
                                         expected_value_row: rowAttr, // Get the row attribute value for comparison
                                         expected_value_col: colAttr,
