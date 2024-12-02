@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (query.length >= 2) {
                 try {
-                    const backendUrl = "https://https://loldoku.onrender.com"; // Replace with your actual Render URL
+                    const backendUrl = "https://loldoku.onrender.com";  // Correct URL // Replace with your actual Render URL
                     fetch(`${backendUrl}/search?query=${query}`)
                     let suggestions = await response.json();
 
