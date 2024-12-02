@@ -167,7 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (query.length >= 2) {
                 try {
-                    const response = await fetch(`http://127.0.0.1:5000/search?query=${query}`);
+                    const backendUrl = "https://https://loldoku.onrender.com"; // Replace with your actual Render URL
+                    fetch(`${backendUrl}/search?query=${query}`)
                     let suggestions = await response.json();
 
                     // Filter out already selected champions
@@ -230,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 console.log(champRowF,champColF)
                                 console.log(rowAttr,colAttr)
 
-                                const validationResponse = await fetch("http://127.0.0.1:5000/validate", {
+                                const validationResponse = await fetch("https://loldoku.onrender.com/validate", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({
